@@ -28,11 +28,11 @@ const Education = () => {
   ];
 
   return (
-    <section id="education" className="section-padding relative overflow-hidden bg-gradient-to-b from-slate-50 to-green-50/30 dark:from-slate-900 dark:to-slate-800">
+    <section id="education" className="section-padding relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-slate-900 dark:via-emerald-950 dark:to-slate-800">
       {/* Floating Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Leaves */}
-        {[...Array(6)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
             className="absolute animate-leaf-float opacity-20"
@@ -43,7 +43,7 @@ const Education = () => {
               animationDuration: `${4 + Math.random() * 2}s`
             }}
           >
-            <div className="w-4 h-6 bg-nature-leaf rounded-full transform rotate-45"></div>
+            <div className="w-3 h-5 bg-nature-leaf rounded-full transform rotate-45"></div>
           </div>
         ))}
         
@@ -61,71 +61,55 @@ const Education = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold nature-text-gradient mb-6 animate-fade-in-up">
+      <div className="max-w-4xl mx-auto relative z-10">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold nature-text-gradient mb-6 animate-fade-in-up">
             Educational Journey
           </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
+          <p className="text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto animate-fade-in-up px-4">
             Growing through knowledge, like rings in a tree, each experience adding depth and strength
           </p>
         </div>
 
-        <div className="relative">
-          {/* Growth Path */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-nature-sage via-nature-leaf to-nature-forest rounded-full opacity-40"></div>
-
-          <div className="space-y-12">
-            {education.map((edu, index) => (
-              <div
-                key={index}
-                className={`flex items-center ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} animate-fade-in-up`}
-                style={{ animationDelay: `${index * 200}ms` }}
-              >
-                <div className="flex-1 md:pr-8 md:pl-8">
-                  <Card className="nature-card group hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
-                    <CardContent className="p-6">
-                      <div className="flex items-start space-x-4">
-                        <div className="p-3 bg-nature-leaf/20 rounded-full group-hover:scale-110 transition-transform duration-300">
-                          <GraduationCap className="w-6 h-6 text-nature-forest" />
+        <div className="space-y-8">
+          {education.map((edu, index) => (
+            <div
+              key={index}
+              className="w-full animate-fade-in-up"
+              style={{ animationDelay: `${index * 200}ms` }}
+            >
+              <Card className="nature-card group hover:shadow-xl transition-all duration-500 hover:-translate-y-2 mx-4 md:mx-0">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4">
+                    <div className="p-3 bg-nature-leaf/20 rounded-full group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                      <GraduationCap className="w-5 h-5 md:w-6 md:h-6 text-nature-forest" />
+                    </div>
+                    <div className="flex-1 w-full">
+                      <h3 className="text-lg md:text-xl font-bold text-slate-800 dark:text-slate-200 mb-2 group-hover:text-nature-forest dark:group-hover:text-nature-sage transition-colors duration-300">
+                        {edu.degree}
+                      </h3>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-3 text-sm text-slate-600 dark:text-slate-400">
+                        <div className="flex items-center space-x-1">
+                          <Calendar className="w-4 h-4 text-nature-sage flex-shrink-0" />
+                          <span>{edu.year}</span>
                         </div>
-                        <div className="flex-1">
-                          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2 group-hover:text-nature-forest dark:group-hover:text-nature-sage transition-colors duration-300">
-                            {edu.degree}
-                          </h3>
-                          <div className="flex flex-wrap items-center gap-4 mb-3 text-sm text-slate-600 dark:text-slate-400">
-                            <div className="flex items-center space-x-1">
-                              <Calendar className="w-4 h-4 text-nature-sage" />
-                              <span>{edu.year}</span>
-                            </div>
-                            <div className="flex items-center space-x-1">
-                              <MapPin className="w-4 h-4 text-nature-sage" />
-                              <span>{edu.location}</span>
-                            </div>
-                          </div>
-                          <h4 className="font-semibold text-nature-forest dark:text-nature-sage mb-2">
-                            {edu.school}
-                          </h4>
-                          <p className="text-slate-600 dark:text-slate-400">
-                            {edu.description}
-                          </p>
+                        <div className="flex items-center space-x-1">
+                          <MapPin className="w-4 h-4 text-nature-sage flex-shrink-0" />
+                          <span>{edu.location}</span>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                {/* Path Node */}
-                <div className="relative flex-shrink-0 w-8 h-8 bg-nature-leaf rounded-full border-4 border-white dark:border-slate-800 shadow-lg z-10 animate-scale-in group-hover:scale-125 transition-transform duration-300" style={{ animationDelay: `${index * 200 + 100}ms` }}>
-                  <div className="absolute inset-1 bg-nature-forest rounded-full animate-pulse"></div>
-                </div>
-
-                <div className="flex-1 md:pr-8 md:pl-8">
-                  {/* Empty space for alternating layout */}
-                </div>
-              </div>
-            ))}
-          </div>
+                      <h4 className="font-semibold text-nature-forest dark:text-nature-sage mb-2 text-sm md:text-base">
+                        {edu.school}
+                      </h4>
+                      <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+                        {edu.description}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          ))}
         </div>
       </div>
     </section>

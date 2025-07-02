@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { Leaf } from 'lucide-react';
+import { Code, Database, Settings, Leaf } from 'lucide-react';
 
 const Skills = () => {
   const [inView, setInView] = useState(false);
@@ -25,41 +25,50 @@ const Skills = () => {
     {
       title: 'Frontend Development',
       skills: [
-        { name: 'React/Next.js', level: 90 },
-        { name: 'TypeScript', level: 85 },
-        { name: 'Tailwind CSS', level: 88 },
-        { name: 'JavaScript', level: 92 }
+        'React/Next.js',
+        'TypeScript', 
+        'Tailwind CSS',
+        'JavaScript',
+        'HTML5/CSS3',
+        'Vue.js'
       ],
-      icon: '🌱'
+      icon: Code,
+      color: 'from-green-400 to-emerald-600'
     },
     {
       title: 'Backend Development',
       skills: [
-        { name: 'Node.js', level: 80 },
-        { name: 'Python', level: 75 },
-        { name: 'PostgreSQL', level: 82 },
-        { name: 'REST APIs', level: 85 }
+        'Node.js',
+        'Python',
+        'PostgreSQL',
+        'REST APIs',
+        'MongoDB',
+        'Express.js'
       ],
-      icon: '🌳'
+      icon: Database,
+      color: 'from-teal-400 to-green-600'
     },
     {
       title: 'Tools & DevOps',
       skills: [
-        { name: 'Git/GitHub', level: 90 },
-        { name: 'Docker', level: 70 },
-        { name: 'AWS', level: 65 },
-        { name: 'CI/CD', level: 72 }
+        'Git/GitHub',
+        'Docker',
+        'AWS',
+        'CI/CD',
+        'Linux',
+        'Kubernetes'
       ],
-      icon: '🍃'
+      icon: Settings,
+      color: 'from-emerald-400 to-teal-600'
     }
   ];
 
   return (
-    <section id="skills" className="section-padding relative overflow-hidden bg-gradient-to-br from-emerald-50 via-green-50 to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-900">
+    <section id="skills" className="section-padding relative overflow-hidden bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-900">
       {/* Animated forest background */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Floating particles */}
-        {[...Array(12)].map((_, i) => (
+        {[...Array(15)].map((_, i) => (
           <div
             key={i}
             className="absolute animate-leaf-float opacity-10"
@@ -70,7 +79,7 @@ const Skills = () => {
               animationDuration: `${4 + Math.random() * 3}s`
             }}
           >
-            <div className="w-2 h-3 bg-nature-leaf rounded-full"></div>
+            <Leaf className="w-4 h-4 text-nature-leaf" />
           </div>
         ))}
 
@@ -89,62 +98,47 @@ const Skills = () => {
             Growing Skills
           </h2>
           <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto px-4">
-            Like rings in a tree, each skill represents years of growth and learning
+            Like a diverse forest ecosystem, each skill contributes to the whole
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {skillCategories.map((category, categoryIndex) => (
-            <div key={category.title} className="nature-card p-6 md:p-8">
-              <div className="text-center mb-6">
-                <div className="text-3xl md:text-4xl mb-4">{category.icon}</div>
-                <h3 className="text-xl md:text-2xl font-semibold text-slate-800 dark:text-slate-200 mb-2">
-                  {category.title}
-                </h3>
-              </div>
+          {skillCategories.map((category, categoryIndex) => {
+            const IconComponent = category.icon;
+            return (
+              <div key={category.title} className="nature-card p-6 md:p-8 group hover:shadow-2xl transition-all duration-500">
+                <div className="text-center mb-6">
+                  <div className={`inline-flex p-4 rounded-full bg-gradient-to-r ${category.color} mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                    {category.title}
+                  </h3>
+                </div>
 
-              <div className="space-y-4 md:space-y-6">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skill.name}>
-                    <div className="flex justify-between items-center mb-2">
+                <div className="grid grid-cols-2 gap-3">
+                  {category.skills.map((skill, skillIndex) => (
+                    <div 
+                      key={skill}
+                      className={`bg-white/50 dark:bg-slate-700/50 rounded-lg p-3 text-center border border-nature-sage/20 hover:border-nature-leaf/40 transition-all duration-300 hover:scale-105 hover:shadow-md ${
+                        inView ? 'animate-fade-in-up' : 'opacity-0'
+                      }`}
+                      style={{ 
+                        animationDelay: `${categoryIndex * 0.2 + skillIndex * 0.1}s`
+                      }}
+                    >
                       <span className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium">
-                        {skill.name}
+                        {skill}
                       </span>
-                      <span className="text-sm md:text-base text-nature-leaf font-semibold">
-                        {skill.level}%
-                      </span>
-                    </div>
-                    
-                    <div className="relative h-2 md:h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                      <div className="relative h-full">
-                        <div 
-                          className={`h-full bg-gradient-to-r from-nature-sage to-nature-leaf rounded-full transition-all duration-1000 ease-out ${
-                            inView ? 'animate-vine-grow' : 'w-0'
-                          }`}
-                          style={{ 
-                            width: inView ? `${skill.level}%` : '0%',
-                            animationDelay: `${categoryIndex * 0.2 + skillIndex * 0.1}s`
-                          }}
-                        />
-                        
-                        <div 
-                          className={`absolute top-1/2 transform -translate-y-1/2 transition-all duration-1000 ease-out ${
-                            inView ? 'opacity-100' : 'opacity-0'
-                          }`}
-                          style={{ 
-                            left: inView ? `calc(${skill.level}% - 8px)` : '0%',
-                            animationDelay: `${categoryIndex * 0.2 + skillIndex * 0.1 + 0.5}s`
-                          }}
-                        >
-                          <Leaf className="w-3 h-3 md:w-4 md:h-4 text-nature-forest animate-gentle-sway" />
-                        </div>
+                      <div className="mt-2 flex justify-center">
+                        <Leaf className="w-3 h-3 md:w-4 md:h-4 text-nature-leaf animate-gentle-sway" />
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

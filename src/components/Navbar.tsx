@@ -35,6 +35,15 @@ const Navbar = () => {
     { name: 'Contact', href: '#contact' }
   ];
 
+  const handleNavClick = (href: string) => {
+    setIsMobileMenuOpen(false);
+    // Smooth scroll to section
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
       isScrolled 
@@ -50,59 +59,72 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 lg:space-x-8">
             {navItems.map((item) => (
-              <a
+              <button
                 key={item.name}
-                href={item.href}
+                onClick={() => handleNavClick(item.href)}
                 className="text-slate-700 dark:text-slate-300 hover:text-nature-leaf dark:hover:text-nature-sage transition-colors duration-300 font-medium text-sm lg:text-base"
               >
                 {item.name}
-              </a>
+              </button>
             ))}
           </div>
 
           <div className="flex items-center space-x-4">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full bg-nature-sage/20 hover:bg-nature-sage/30 transition-colors duration-300"
+              className="p-2 rounded-full bg-nature-sage/20 hover:bg-nature-sage/30 transition-all duration-300 hover:scale-110"
             >
               {isDark ? (
-                <Sun className="w-4 h-4 md:w-5 md:h-5 text-nature-dawn" />
+                <Sun className="w-4 h-4 md:w-5 md:h-5 text-nature-dawn transition-transform duration-300" />
               ) : (
-                <Moon className="w-4 h-4 md:w-5 md:h-5 text-nature-forest" />
+                <Moon className="w-4 h-4 md:w-5 md:h-5 text-nature-forest transition-transform duration-300" />
               )}
             </button>
 
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMobileMenu}
-              className="md:hidden p-2 rounded-full bg-nature-sage/20 hover:bg-nature-sage/30 transition-colors duration-300"
+              className="md:hidden p-2 rounded-full bg-nature-sage/20 hover:bg-nature-sage/30 transition-all duration-300 hover:scale-110"
             >
-              {isMobileMenuOpen ? (
-                <X className="w-5 h-5 text-nature-forest dark:text-nature-sage" />
-              ) : (
-                <Menu className="w-5 h-5 text-nature-forest dark:text-nature-sage" />
-              )}
+              <div className="relative w-5 h-5">
+                <Menu 
+                  className={`w-5 h-5 text-nature-forest dark:text-nature-sage absolute transition-all duration-300 ${
+                    isMobileMenuOpen ? 'rotate-90 opacity-0' : 'rotate-0 opacity-100'
+                  }`} 
+                />
+                <X 
+                  className={`w-5 h-5 text-nature-forest dark:text-nature-sage absolute transition-all duration-300 ${
+                    isMobileMenuOpen ? 'rotate-0 opacity-100' : '-rotate-90 opacity-0'
+                  }`} 
+                />
+              </div>
             </button>
           </div>
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-nature-sage/20">
-            <div className="flex flex-col space-y-3">
-              {navItems.map((item) => (
-                <a
+        <div className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
+          isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}>
+          <div className="py-4 border-t border-nature-sage/20">
+            <div className="flex flex-col space-y-1">
+              {navItems.map((item, index) => (
+                <button
                   key={item.name}
-                  href={item.href}
-                  className="text-slate-700 dark:text-slate-300 hover:text-nature-leaf dark:hover:text-nature-sage transition-colors duration-300 font-medium py-2 px-4 rounded-lg hover:bg-nature-sage/10"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => handleNavClick(item.href)}
+                  className={`text-slate-700 dark:text-slate-300 hover:text-nature-leaf dark:hover:text-nature-sage transition-all duration-300 font-medium py-3 px-4 rounded-lg hover:bg-nature-sage/10 text-left transform transition-transform ${
+                    isMobileMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'
+                  }`}
+                  style={{ 
+                    transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : '0ms' 
+                  }}
                 >
                   {item.name}
-                </a>
+                </button>
               ))}
             </div>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
