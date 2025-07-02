@@ -56,73 +56,39 @@ const Certifications = () => {
   ];
 
   return (
-    <section id="certifications" className="section-padding relative overflow-hidden bg-gradient-to-b from-green-50/30 to-blue-50/30 dark:from-slate-800/30 dark:to-slate-900/30">
-      {/* Animated Tree */}
-      <div className="absolute right-10 top-20 opacity-20 animate-gentle-sway">
-        <svg width="200" height="300" viewBox="0 0 200 300" fill="none">
-          {/* Tree trunk */}
-          <rect x="90" y="200" width="20" height="100" fill="url(#trunk-gradient)" rx="10" />
-          
-          {/* Tree foliage */}
-          <circle cx="100" cy="180" r="50" fill="url(#foliage-gradient)" />
-          <circle cx="80" cy="160" r="35" fill="url(#foliage-gradient-2)" />
-          <circle cx="120" cy="160" r="35" fill="url(#foliage-gradient-2)" />
-          <circle cx="100" cy="140" r="30" fill="url(#foliage-gradient-3)" />
-          
-          {/* Certificate leaves */}
-          {certifications.slice(0, 6).map((_, index) => {
-            const angle = (index * 60) * Math.PI / 180;
-            const radius = 60 + (index % 2) * 15;
-            const x = 100 + Math.cos(angle) * radius;
-            const y = 170 + Math.sin(angle) * radius;
-            
-            return (
-              <g key={index}>
-                <ellipse 
-                  cx={x} 
-                  cy={y} 
-                  rx="8" 
-                  ry="12" 
-                  fill="url(#leaf-gradient)"
-                  className="animate-leaf-float cursor-pointer hover:scale-125 transition-transform duration-300"
-                  style={{ animationDelay: `${index * 0.5}s` }}
-                />
-                <circle 
-                  cx={x} 
-                  cy={y} 
-                  r="3" 
-                  fill="rgba(255,215,0,0.8)"
-                  className="animate-pulse"
-                  style={{ animationDelay: `${index * 0.3}s` }}
-                />
-              </g>
-            );
-          })}
-          
-          <defs>
-            <linearGradient id="trunk-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#8B4513" />
-              <stop offset="100%" stopColor="#654321" />
-            </linearGradient>
-            <radialGradient id="foliage-gradient" cx="50%" cy="50%">
-              <stop offset="0%" stopColor="#87A96B" />
-              <stop offset="100%" stopColor="#4A7C59" />
-            </radialGradient>
-            <radialGradient id="foliage-gradient-2" cx="50%" cy="50%">
-              <stop offset="0%" stopColor="#4A7C59" />
-              <stop offset="100%" stopColor="#2D5016" />
-            </radialGradient>
-            <radialGradient id="foliage-gradient-3" cx="50%" cy="50%">
-              <stop offset="0%" stopColor="#87A96B" />
-              <stop offset="100%" stopColor="#4A7C59" />
-            </radialGradient>
-            <linearGradient id="leaf-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#87A96B" />
-              <stop offset="50%" stopColor="#4A7C59" />
-              <stop offset="100%" stopColor="#2D5016" />
-            </linearGradient>
-          </defs>
-        </svg>
+    <section id="certifications" className="section-padding relative overflow-hidden bg-gradient-to-b from-green-50/30 to-slate-50 dark:from-slate-800 dark:to-slate-900">
+      {/* Floating Certification Badges */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Certificate leaves floating */}
+        {[...Array(8)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute animate-leaf-float opacity-15"
+            style={{
+              left: `${10 + Math.random() * 80}%`,
+              top: `${10 + Math.random() * 80}%`,
+              animationDelay: `${i * 0.8}s`,
+              animationDuration: `${6 + Math.random() * 2}s`
+            }}
+          >
+            <Award className="w-6 h-6 text-nature-sage" />
+          </div>
+        ))}
+
+        {/* Background vines */}
+        <div className="absolute right-0 top-0 w-64 h-full opacity-10">
+          <svg className="w-full h-full" viewBox="0 0 200 800" fill="none">
+            <path d="M50 0Q100 50 50 100T50 200Q100 250 50 300T50 400Q100 450 50 500T50 600Q100 650 50 700T50 800" 
+                  stroke="url(#vine-gradient)" strokeWidth="8" fill="none" />
+            <defs>
+              <linearGradient id="vine-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="rgb(34, 197, 94)" />
+                <stop offset="50%" stopColor="rgb(74, 124, 89)" />
+                <stop offset="100%" stopColor="rgb(45, 80, 22)" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -131,7 +97,7 @@ const Certifications = () => {
             Certifications & Achievements
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
-            Like leaves on a tree, each certification represents growth and mastery in different areas of expertise
+            Professional milestones that mark growth and expertise, like badges earned on nature's trails
           </p>
         </div>
 
@@ -139,13 +105,13 @@ const Certifications = () => {
           {certifications.map((cert, index) => (
             <Card 
               key={index} 
-              className="nature-card group hover:shadow-2xl transition-all duration-500 animate-fade-in-up"
+              className="nature-card group hover:shadow-2xl transition-all duration-500 animate-fade-in-up hover:-translate-y-2"
               style={{ animationDelay: `${index * 150}ms` }}
             >
               <CardContent className="p-6">
                 <div className="flex items-start space-x-4 mb-4">
-                  <div className="p-3 bg-gradient-to-br from-yellow-400/20 to-orange-400/20 rounded-full group-hover:scale-110 transition-transform duration-300">
-                    <Award className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+                  <div className="p-3 bg-nature-sage/20 rounded-full group-hover:scale-110 transition-transform duration-300">
+                    <Award className="w-6 h-6 text-nature-forest group-hover:text-nature-leaf transition-colors duration-300" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-2 group-hover:text-nature-forest dark:group-hover:text-nature-sage transition-colors duration-300">
@@ -155,7 +121,7 @@ const Certifications = () => {
                       {cert.issuer}
                     </p>
                     <div className="flex items-center space-x-1 text-xs text-slate-500 dark:text-slate-400 mb-3">
-                      <Calendar className="w-3 h-3" />
+                      <Calendar className="w-3 h-3 text-nature-sage" />
                       <span>{cert.date}</span>
                     </div>
                   </div>
@@ -172,7 +138,7 @@ const Certifications = () => {
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="hover:bg-nature-sage/10 hover:border-nature-sage transition-colors duration-300"
+                    className="hover:bg-nature-sage/10 hover:border-nature-sage hover:text-nature-forest transition-colors duration-300"
                   >
                     <ExternalLink className="w-3 h-3 mr-1" />
                     Verify
