@@ -10,23 +10,37 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" className="min-h-screen relative overflow-hidden flex items-center justify-center">
+    <section id="home" className="min-h-screen relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-emerald-50 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-900">
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 bg-sky-gradient opacity-20"></div>
+      <div className="absolute inset-0">
+        {/* Gentle wave animation */}
+        <div className="absolute bottom-0 left-0 w-full h-32 opacity-20">
+          <svg className="w-full h-full animate-water-flow" viewBox="0 0 1200 300" fill="none">
+            <path d="M0 150L50 140L100 160L150 145L200 155L250 135L300 150L350 140L400 160L450 145L500 155L550 135L600 150L650 140L700 160L750 145L800 155L850 135L900 150L950 140L1000 160L1050 145L1100 155L1150 135L1200 150V300H0V150Z" 
+                  fill="url(#wave-gradient)" />
+            <defs>
+              <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="rgb(34, 197, 94)" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="rgb(34, 197, 94)" stopOpacity="0.1" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
       
       {/* Floating Leaves */}
-      {mounted && [...Array(6)].map((_, i) => (
+      {mounted && [...Array(8)].map((_, i) => (
         <div
           key={i}
-          className="absolute animate-leaf-float opacity-30"
+          className="absolute animate-leaf-float opacity-20"
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
-            animationDelay: `${i * 0.5}s`,
+            animationDelay: `${i * 0.8}s`,
             animationDuration: `${6 + Math.random() * 4}s`
           }}
         >
-          <Leaf className="w-8 h-8 text-nature-leaf transform rotate-12" />
+          <Leaf className="w-6 h-6 md:w-8 md:h-8 text-nature-leaf transform rotate-12" />
         </div>
       ))}
 
@@ -50,25 +64,25 @@ const Hero = () => {
       {/* Main Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <div className="animate-fade-in-up">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
             <span className="nature-text-gradient">Growing</span>
             <br />
             <span className="text-slate-800 dark:text-slate-200">Through Code</span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed px-4">
             Like nature's endless cycles of growth and renewal, I craft digital experiences that evolve, adapt, and flourish.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="group bg-nature-leaf hover:bg-nature-forest text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
-              <span className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
+            <button className="w-full sm:w-auto group bg-nature-leaf hover:bg-nature-forest text-white px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
+              <span className="flex items-center justify-center gap-2">
                 Explore My Journey
-                <Mountain className="w-5 h-5 group-hover:animate-bounce" />
+                <Mountain className="w-4 h-4 md:w-5 md:h-5 group-hover:animate-bounce" />
               </span>
             </button>
             
-            <button className="bg-transparent border-2 border-nature-sage text-nature-forest dark:text-nature-sage hover:bg-nature-sage hover:text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105">
+            <button className="w-full sm:w-auto bg-transparent border-2 border-nature-sage text-nature-forest dark:text-nature-sage hover:bg-nature-sage hover:text-white px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold transition-all duration-300 hover:scale-105">
               View Projects
             </button>
           </div>

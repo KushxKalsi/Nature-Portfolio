@@ -11,7 +11,7 @@ const Projects = () => {
       description: 'A sustainability tracking application that helps users monitor their environmental impact with beautiful data visualizations.',
       tech: ['React', 'Node.js', 'MongoDB', 'Chart.js'],
       image: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=600&h=400&fit=crop',
-      icon: <Leaf className="w-8 h-8" />,
+      icon: <Leaf className="w-6 h-6 md:w-8 md:h-8" />,
       color: 'from-green-400 to-green-600'
     },
     {
@@ -19,7 +19,7 @@ const Projects = () => {
       description: 'Real-time weather forecasting for mountain regions with interactive maps and safety alerts for hikers.',
       tech: ['Vue.js', 'Express', 'PostgreSQL', 'Mapbox'],
       image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=400&fit=crop',
-      icon: <Mountain className="w-8 h-8" />,
+      icon: <Mountain className="w-6 h-6 md:w-8 md:h-8" />,
       color: 'from-blue-400 to-blue-600'
     },
     {
@@ -27,34 +27,34 @@ const Projects = () => {
       description: 'Data visualization platform for tracking deforestation and conservation efforts across different regions.',
       tech: ['React', 'D3.js', 'Python', 'FastAPI'],
       image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=600&h=400&fit=crop',
-      icon: <TreePine className="w-8 h-8" />,
+      icon: <TreePine className="w-6 h-6 md:w-8 md:h-8" />,
       color: 'from-emerald-400 to-emerald-600'
     }
   ];
 
   return (
-    <section id="projects" className="section-padding relative overflow-hidden">
+    <section id="projects" className="section-padding relative overflow-hidden bg-gradient-to-b from-slate-50 via-green-50/30 to-emerald-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-900">
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-10 left-10 animate-leaf-float">
-          <Leaf className="w-16 h-16 text-nature-leaf" />
+        <div className="absolute top-10 left-4 md:left-10 animate-leaf-float">
+          <Leaf className="w-12 h-12 md:w-16 md:h-16 text-nature-leaf" />
         </div>
-        <div className="absolute top-20 right-20 animate-leaf-float" style={{ animationDelay: '2s' }}>
-          <Mountain className="w-20 h-20 text-nature-earth" />
+        <div className="absolute top-20 right-4 md:right-20 animate-leaf-float" style={{ animationDelay: '2s' }}>
+          <Mountain className="w-16 h-16 md:w-20 md:h-20 text-nature-earth" />
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold nature-text-gradient mb-4">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold nature-text-gradient mb-4">
             Digital Ecosystems
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto px-4">
             Each project is like a unique habitat, carefully crafted to solve real-world problems
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {projects.map((project, index) => (
             <div
               key={project.title}
@@ -64,7 +64,7 @@ const Projects = () => {
             >
               <div className="nature-card overflow-hidden h-full transform transition-all duration-500 hover:scale-105 hover:-translate-y-2">
                 {/* Project Image */}
-                <div className="relative overflow-hidden h-48">
+                <div className="relative overflow-hidden h-40 md:h-48">
                   <img
                     src={project.image}
                     alt={project.title}
@@ -91,7 +91,7 @@ const Projects = () => {
                             animationDelay: `${i * 0.2}s`
                           }}
                         >
-                          <Leaf className="w-4 h-4 text-white/70" />
+                          <Leaf className="w-3 h-3 md:w-4 md:h-4 text-white/70" />
                         </div>
                       ))}
                     </div>
@@ -99,21 +99,21 @@ const Projects = () => {
                 </div>
 
                 {/* Project Content */}
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-3 group-hover:text-nature-leaf transition-colors duration-300">
+                <div className="p-4 md:p-6">
+                  <h3 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-slate-200 mb-3 group-hover:text-nature-leaf transition-colors duration-300">
                     {project.title}
                   </h3>
                   
-                  <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+                  <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
                     {project.description}
                   </p>
 
                   {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                     {project.tech.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 bg-nature-sage/20 text-nature-forest text-sm rounded-full font-medium"
+                        className="px-2 py-1 md:px-3 md:py-1 bg-nature-sage/20 text-nature-forest text-xs md:text-sm rounded-full font-medium"
                       >
                         {tech}
                       </span>
@@ -121,11 +121,11 @@ const Projects = () => {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex gap-3">
-                    <button className="flex-1 bg-nature-leaf hover:bg-nature-forest text-white py-2 px-4 rounded-lg transition-colors duration-300 font-medium">
+                  <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
+                    <button className="flex-1 bg-nature-leaf hover:bg-nature-forest text-white py-2 px-3 md:px-4 rounded-lg transition-colors duration-300 font-medium text-sm md:text-base">
                       View Live
                     </button>
-                    <button className="flex-1 border-2 border-nature-sage text-nature-forest dark:text-nature-sage hover:bg-nature-sage hover:text-white py-2 px-4 rounded-lg transition-all duration-300 font-medium">
+                    <button className="flex-1 border-2 border-nature-sage text-nature-forest dark:text-nature-sage hover:bg-nature-sage hover:text-white py-2 px-3 md:px-4 rounded-lg transition-all duration-300 font-medium text-sm md:text-base">
                       View Code
                     </button>
                   </div>
@@ -134,10 +134,10 @@ const Projects = () => {
 
               {/* Growth animation line */}
               <div className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 bg-nature-sage transition-all duration-1000 ${
-                hoveredProject === index ? 'h-8' : 'h-0'
+                hoveredProject === index ? 'h-6 md:h-8' : 'h-0'
               }`}>
                 <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2">
-                  <Leaf className={`w-3 h-3 text-nature-sage transition-all duration-500 ${
+                  <Leaf className={`w-2 h-2 md:w-3 md:h-3 text-nature-sage transition-all duration-500 ${
                     hoveredProject === index ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
                   }`} />
                 </div>

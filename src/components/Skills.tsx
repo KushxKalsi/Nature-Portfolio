@@ -55,41 +55,67 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="section-padding bg-gradient-to-br from-green-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold nature-text-gradient mb-4">
+    <section id="skills" className="section-padding relative overflow-hidden bg-gradient-to-br from-emerald-50 via-green-50 to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-900">
+      {/* Animated forest background */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Floating particles */}
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute animate-leaf-float opacity-10"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${i * 0.5}s`,
+              animationDuration: `${4 + Math.random() * 3}s`
+            }}
+          >
+            <div className="w-2 h-3 bg-nature-leaf rounded-full"></div>
+          </div>
+        ))}
+
+        {/* Background trees */}
+        <div className="absolute right-0 bottom-0 w-64 h-64 opacity-5">
+          <svg className="w-full h-full" viewBox="0 0 200 200" fill="none">
+            <circle cx="100" cy="80" r="40" fill="rgb(34, 197, 94)" />
+            <rect x="95" y="120" width="10" height="80" fill="rgb(101, 67, 33)" />
+          </svg>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold nature-text-gradient mb-4">
             Growing Skills
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto px-4">
             Like rings in a tree, each skill represents years of growth and learning
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {skillCategories.map((category, categoryIndex) => (
-            <div key={category.title} className="nature-card p-8">
+            <div key={category.title} className="nature-card p-6 md:p-8">
               <div className="text-center mb-6">
-                <div className="text-4xl mb-4">{category.icon}</div>
-                <h3 className="text-2xl font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                <div className="text-3xl md:text-4xl mb-4">{category.icon}</div>
+                <h3 className="text-xl md:text-2xl font-semibold text-slate-800 dark:text-slate-200 mb-2">
                   {category.title}
                 </h3>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 {category.skills.map((skill, skillIndex) => (
                   <div key={skill.name}>
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-slate-700 dark:text-slate-300 font-medium">
+                      <span className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium">
                         {skill.name}
                       </span>
-                      <span className="text-nature-leaf font-semibold">
+                      <span className="text-sm md:text-base text-nature-leaf font-semibold">
                         {skill.level}%
                       </span>
                     </div>
                     
-                    <div className="relative h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                      {/* Vine growth container */}
+                    <div className="relative h-2 md:h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                       <div className="relative h-full">
                         <div 
                           className={`h-full bg-gradient-to-r from-nature-sage to-nature-leaf rounded-full transition-all duration-1000 ease-out ${
@@ -101,7 +127,6 @@ const Skills = () => {
                           }}
                         />
                         
-                        {/* Leaf at the end of vine */}
                         <div 
                           className={`absolute top-1/2 transform -translate-y-1/2 transition-all duration-1000 ease-out ${
                             inView ? 'opacity-100' : 'opacity-0'
@@ -111,7 +136,7 @@ const Skills = () => {
                             animationDelay: `${categoryIndex * 0.2 + skillIndex * 0.1 + 0.5}s`
                           }}
                         >
-                          <Leaf className="w-4 h-4 text-nature-forest animate-gentle-sway" />
+                          <Leaf className="w-3 h-3 md:w-4 md:h-4 text-nature-forest animate-gentle-sway" />
                         </div>
                       </div>
                     </div>
