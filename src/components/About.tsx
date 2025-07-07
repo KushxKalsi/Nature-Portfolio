@@ -1,4 +1,3 @@
-
 import { User, Heart, Target, Lightbulb } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 
@@ -85,7 +84,7 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Personal Story */}
           <div className="space-y-6 animate-fade-in-up animation-delay-300">
-            <Card className="nature-card">
+            <Card className="nature-card bg-white dark:bg-slate-800">
               <CardContent className="p-8">
                 <div className="flex items-start space-x-4 mb-6">
                   <div className="p-3 bg-nature-sage/20 rounded-full">
@@ -129,7 +128,7 @@ const About = () => {
               {values.map((value, index) => (
                 <Card 
                   key={index} 
-                  className="nature-card group hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  className="nature-card bg-white dark:bg-slate-800 group hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                   style={{ animationDelay: `${600 + index * 150}ms` }}
                 >
                   <CardContent className="p-6">

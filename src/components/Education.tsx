@@ -1,34 +1,40 @@
-
 import { GraduationCap, Calendar, MapPin } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 
 const Education = () => {
   const education = [
     {
-      degree: "Bachelor of Science in Computer Science",
-      school: "University of Technology",
-      year: "2020 - 2024",
-      location: "San Francisco, CA",
-      description: "Specialized in Software Engineering and Data Structures. Graduated Magna Cum Laude with GPA 3.8/4.0"
+      degree: "Master of Computer Applications (MCA)",
+      school: "Chandigarh University",
+      year: "2023 - 2025",
+      location: "India, Punjab, Mohali",
+      description: "Pursuing with a focus on Advanced Software Development, Artificial Intelligence and Robotics. Graduated with a CGPA of 8.1/10."
     },
     {
-      degree: "Full Stack Web Development Bootcamp",
-      school: "Tech Academy",
-      year: "2023",
-      location: "Online",
-      description: "Intensive 6-month program covering React, Node.js, MongoDB, and modern web development practices"
+      degree: "Bachelor of Computer Applications (BCA)",
+      school: "Sri Guru Gobind Singh College Chandigarh",
+      year: "2020 - 2023",
+      location: "India, Chandigarh",
+      description: "Completed with a focus on Web Development and Database Management. Graduated with First Class Honors, with 77.54% aggregate."
     },
     {
-      degree: "High School Diploma",
-      school: "Mountain View High School",
-      year: "2016 - 2020",
-      location: "Mountain View, CA",
-      description: "Valedictorian with focus on STEM subjects and computer programming"
+      degree: "10 + 2 Non Medical (Science)",
+      school: "Stepping Stones Senior Secondary School",
+      year: "2019 - 2020",
+      location: "India, Chandigarh",
+      description: "Completed with a focus on Physics, Chemistry, and Mathematics. Achieved 65% in board examinations."
+    },
+    {
+      degree: "10th Class",
+      school: "Kendriya Vidyalaya Air Force Station High Grounds Chandigarh",
+      year: "2016 - 2017",
+      location: "India, Chandigarh",
+      description: "Completed with a focus on Science, and Mathematics. Achieved 87.4% in examinations."
     }
   ];
 
   return (
-    <section id="education" className="section-padding relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-slate-900 dark:via-emerald-950 dark:to-slate-800">
+    <section id="education" className="section-padding relative overflow-hidden bg-white dark:bg-slate-900">
       {/* Floating Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Leaves */}
@@ -78,7 +84,7 @@ const Education = () => {
               className="w-full animate-fade-in-up"
               style={{ animationDelay: `${index * 200}ms` }}
             >
-              <Card className="nature-card group hover:shadow-xl transition-all duration-500 hover:-translate-y-2 mx-4 md:mx-0">
+              <Card className="nature-card bg-white group hover:shadow-xl transition-all duration-500 hover:-translate-y-2 mx-4 md:mx-0">
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4">
                     <div className="p-3 bg-nature-leaf/20 rounded-full group-hover:scale-110 transition-transform duration-300 flex-shrink-0">

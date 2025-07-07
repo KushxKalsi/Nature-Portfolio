@@ -1,6 +1,24 @@
-
 import { useEffect, useState } from 'react';
-import { Code, Database, Settings, Leaf } from 'lucide-react';
+import { 
+  Code, Database, Settings, Leaf, 
+  Github, Server, Terminal, GitBranch 
+} from 'lucide-react';
+
+// Map skill names to icons and URLs
+const skillIconMap: Record<string, { icon: React.ElementType, url: string }> = {
+  'React/Next.js': { icon: Code, url: 'https://react.dev/' },
+  'Tailwind CSS': { icon: Code, url: 'https://tailwindcss.com/' },
+  'JavaScript': { icon: Code, url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript' },
+  'HTML5/CSS3': { icon: Code, url: 'https://developer.mozilla.org/en-US/docs/Web/HTML' },
+  'Node.js': { icon: Server, url: 'https://nodejs.org/' },
+  'Python': { icon: Server, url: 'https://python.org/' },
+  'REST APIs': { icon: Server, url: 'https://restfulapi.net/' },
+  'MongoDB': { icon: Database, url: 'https://mongodb.com/' },
+  'Git/GitHub': { icon: Github, url: 'https://github.com/' },
+  'AWS': { icon: Server, url: 'https://aws.amazon.com/' },
+  'CI/CD': { icon: GitBranch, url: 'https://en.wikipedia.org/wiki/CI/CD' },
+  'Linux': { icon: Terminal, url: 'https://kernel.org/' },
+};
 
 const Skills = () => {
   const [inView, setInView] = useState(false);
@@ -26,11 +44,9 @@ const Skills = () => {
       title: 'Frontend Development',
       skills: [
         'React/Next.js',
-        'TypeScript', 
         'Tailwind CSS',
         'JavaScript',
-        'HTML5/CSS3',
-        'Vue.js'
+        'HTML5/CSS3'
       ],
       icon: Code,
       color: 'from-green-400 to-emerald-600'
@@ -40,10 +56,8 @@ const Skills = () => {
       skills: [
         'Node.js',
         'Python',
-        'PostgreSQL',
         'REST APIs',
         'MongoDB',
-        'Express.js'
       ],
       icon: Database,
       color: 'from-teal-400 to-green-600'
@@ -52,11 +66,9 @@ const Skills = () => {
       title: 'Tools & DevOps',
       skills: [
         'Git/GitHub',
-        'Docker',
         'AWS',
         'CI/CD',
-        'Linux',
-        'Kubernetes'
+        'Linux'
       ],
       icon: Settings,
       color: 'from-emerald-400 to-teal-600'
@@ -117,24 +129,37 @@ const Skills = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  {category.skills.map((skill, skillIndex) => (
-                    <div 
-                      key={skill}
-                      className={`bg-white/50 dark:bg-slate-700/50 rounded-lg p-3 text-center border border-nature-sage/20 hover:border-nature-leaf/40 transition-all duration-300 hover:scale-105 hover:shadow-md ${
-                        inView ? 'animate-fade-in-up' : 'opacity-0'
-                      }`}
-                      style={{ 
-                        animationDelay: `${categoryIndex * 0.2 + skillIndex * 0.1}s`
-                      }}
-                    >
-                      <span className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium">
-                        {skill}
-                      </span>
-                      <div className="mt-2 flex justify-center">
-                        <Leaf className="w-3 h-3 md:w-4 md:h-4 text-nature-leaf animate-gentle-sway" />
+                  {category.skills.map((skill, skillIndex) => {
+                    const skillData = skillIconMap[skill];
+                    const SkillIcon = skillData?.icon || Leaf;
+                    const skillUrl = skillData?.url || '#';
+                    return (
+                      <div 
+                        key={skill}
+                        className={`bg-white/50 dark:bg-slate-700/50 rounded-lg p-3 text-center border border-nature-sage/20 hover:border-nature-leaf/40 transition-all duration-300 hover:scale-105 hover:shadow-md ${
+                          inView ? 'animate-fade-in-up' : 'opacity-0'
+                        }`}
+                        style={{ 
+                          animationDelay: `${categoryIndex * 0.2 + skillIndex * 0.1}s`
+                        }}
+                      >
+                        <span className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium block mb-2">
+                          {skill}
+                        </span>
+                        <div className="mt-2 flex justify-center">
+                          <a 
+                            href={skillUrl} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center"
+                            aria-label={skill}
+                          >
+                            <SkillIcon className="w-5 h-5 md:w-6 md:h-6 text-nature-leaf hover:text-nature-forest transition-colors duration-200" />
+                          </a>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             );

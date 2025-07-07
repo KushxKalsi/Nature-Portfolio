@@ -1,4 +1,3 @@
-
 import { Award, ExternalLink, Calendar } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
@@ -105,7 +104,7 @@ const Certifications = () => {
           {certifications.map((cert, index) => (
             <Card 
               key={index} 
-              className="nature-card group hover:shadow-2xl transition-all duration-500 animate-fade-in-up hover:-translate-y-2"
+              className="nature-card bg-white dark:bg-slate-800 group hover:shadow-2xl transition-all duration-500 animate-fade-in-up hover:-translate-y-2"
               style={{ animationDelay: `${index * 150}ms` }}
             >
               <CardContent className="p-6">

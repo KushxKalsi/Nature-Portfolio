@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Leaf, Mountain } from 'lucide-react';
 
@@ -75,16 +74,22 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
-            <button className="w-full sm:w-auto group bg-nature-leaf hover:bg-nature-forest text-white px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
+            <a
+              href="#education"
+              className="w-full sm:w-auto group bg-nature-leaf hover:bg-nature-forest text-white px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+            >
               <span className="flex items-center justify-center gap-2">
                 Explore My Journey
                 <Mountain className="w-4 h-4 md:w-5 md:h-5 group-hover:animate-bounce" />
               </span>
-            </button>
-            
-            <button className="w-full sm:w-auto bg-transparent border-2 border-nature-sage text-nature-forest dark:text-nature-sage hover:bg-nature-sage hover:text-white px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold transition-all duration-300 hover:scale-105">
+            </a>
+
+            <a
+              href="#projects"
+              className="w-full sm:w-auto bg-transparent border-2 border-nature-sage text-nature-forest dark:text-nature-sage hover:bg-nature-sage hover:text-white px-6 md:px-8 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold transition-all duration-300 hover:scale-105 text-center"
+            >
               View Projects
-            </button>
+            </a>
           </div>
         </div>
 

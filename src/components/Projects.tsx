@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Mountain, Leaf, TreePine } from 'lucide-react';
 
@@ -7,28 +6,34 @@ const Projects = () => {
 
   const projects = [
     {
-      title: 'EcoTracker App',
-      description: 'A sustainability tracking application that helps users monitor their environmental impact with beautiful data visualizations.',
-      tech: ['React', 'Node.js', 'MongoDB', 'Chart.js'],
-      image: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=600&h=400&fit=crop',
+      title: 'AI Learning Assistant',
+      description: 'An interactive AI-powered learning platform that helps users explore topics, generate learning roadmaps, get detailed explanations, and test their knowledge through quizzes.',
+      tech: ['Python', 'Flask', 'Cursor AI', 'Html & CSS', 'JavaScript'],
+      image: '../src/images/ai-learning-assitstant.png',
       icon: <Leaf className="w-6 h-6 md:w-8 md:h-8" />,
-      color: 'from-green-400 to-green-600'
+      color: 'from-green-400 to-green-600',
+      liveUrl: 'https://ai-learning-assistant-b4er.onrender.com/',
+      codeUrl: 'https://github.com/KushxKalsi/Ai-Learning-Assistant'
     },
     {
-      title: 'Mountain Weather App',
-      description: 'Real-time weather forecasting for mountain regions with interactive maps and safety alerts for hikers.',
-      tech: ['Vue.js', 'Express', 'PostgreSQL', 'Mapbox'],
-      image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=400&fit=crop',
+      title: 'Birds Image Classification Model',
+      description: 'Image Classification Model using CNN to classify different birds species. This model is trained on a dataset of bird images and can accurately identify various species based on their visual features.',
+      tech: ['Python', 'Deep Learning', 'CNN', 'TensorFlow'],
+      image: '../src/images/Bird Image Classification using CNN.png',
       icon: <Mountain className="w-6 h-6 md:w-8 md:h-8" />,
-      color: 'from-blue-400 to-blue-600'
+      color: 'from-blue-400 to-blue-600',
+      liveUrl: 'https://birds-image-classification-model-3gtmbjda9chcmmhphcb3nk.streamlit.app/',
+      codeUrl: 'https://github.com/KushxKalsi/Birds-Image-Classification-Model'
     },
     {
-      title: 'Forest Conservation Dashboard',
-      description: 'Data visualization platform for tracking deforestation and conservation efforts across different regions.',
-      tech: ['React', 'D3.js', 'Python', 'FastAPI'],
-      image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=600&h=400&fit=crop',
-      icon: <TreePine className="w-6 h-6 md:w-8 md:h-8" />,
-      color: 'from-emerald-400 to-emerald-600'
+      title: 'IFit - Step Counter App',
+      description: 'A step counter app, which helps its users stay healthy and fight the climate change. It tracks the steps taken by the user and tree grows in app as a reward. The points can be used to plant trees in real life.',
+      tech: ['Kotlin', 'Android', 'Sqlite', 'Java', 'XML', 'Material Design'],
+      image: '../src/images/IFit.jpg',
+      icon: <Mountain className="w-6 h-6 md:w-8 md:h-8" />,
+      color: 'from-blue-400 to-blue-600',
+      liveUrl: 'https://github.com/KushxKalsi/IFit',
+      codeUrl: 'https://github.com/KushxKalsi/IFit'
     }
   ];
 
@@ -122,12 +127,22 @@ const Projects = () => {
 
                   {/* Action Buttons */}
                   <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
-                    <button className="flex-1 bg-nature-leaf hover:bg-nature-forest text-white py-2 px-3 md:px-4 rounded-lg transition-colors duration-300 font-medium text-sm md:text-base">
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 bg-nature-leaf hover:bg-nature-forest text-white py-2 px-3 md:px-4 rounded-lg transition-colors duration-300 font-medium text-sm md:text-base text-center"
+                    >
                       View Live
-                    </button>
-                    <button className="flex-1 border-2 border-nature-sage text-nature-forest dark:text-nature-sage hover:bg-nature-sage hover:text-white py-2 px-3 md:px-4 rounded-lg transition-all duration-300 font-medium text-sm md:text-base">
+                    </a>
+                    <a
+                      href={project.codeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 border-2 border-nature-sage text-nature-forest dark:text-nature-sage hover:bg-nature-sage hover:text-white py-2 px-3 md:px-4 rounded-lg transition-all duration-300 font-medium text-sm md:text-base text-center"
+                    >
                       View Code
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
