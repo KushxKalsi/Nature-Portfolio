@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Moon, Sun, Menu, X, Github, Instagram, Linkedin } from 'lucide-react'; // <-- Changed Facebook to Linkedin
+import { Moon, Sun, Menu, X, Github, Instagram, Linkedin } from 'lucide-react';
 
 const Navbar = () => {
   const [isDark, setIsDark] = useState(false);
