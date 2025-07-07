@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import { Moon, Sun, Menu, X } from 'lucide-react';
+import { Moon, Sun, Menu, X, Github, Instagram, Linkedin } from 'lucide-react'; // <-- Changed Facebook to Linkedin
 
 const Navbar = () => {
   const [isDark, setIsDark] = useState(false);
@@ -53,7 +52,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="text-xl md:text-2xl font-bold nature-text-gradient">
-            Portfolio
+            Kush Kalsi
           </div>
           
           {/* Desktop Menu */}
@@ -70,6 +69,36 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center space-x-4">
+            {/* Social Media Links */}
+            <a
+              href="https://github.com/KushxKalsi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full hover:bg-nature-sage/20 transition-all duration-300"
+              aria-label="GitHub"
+            >
+              <Github className="w-5 h-5 text-nature-forest dark:text-nature-sage" />
+            </a>
+            <a
+              href="https://www.instagram.com/kush_kalsi/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full hover:bg-nature-sage/20 transition-all duration-300"
+              aria-label="Instagram"
+            >
+              <Instagram className="w-5 h-5 text-nature-forest dark:text-nature-sage" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/kush-kalsi-32928328a/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full hover:bg-nature-sage/20 transition-all duration-300"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="w-5 h-5 text-nature-forest dark:text-nature-sage" />
+            </a>
+
+            {/* Dark mode button */}
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full bg-nature-sage/20 hover:bg-nature-sage/30 transition-all duration-300 hover:scale-110"
