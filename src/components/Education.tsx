@@ -1,4 +1,3 @@
-
 import { GraduationCap, Calendar, MapPin } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 
@@ -28,7 +27,7 @@ const Education = () => {
   ];
 
   return (
-    <section id="education" className="section-padding relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-slate-900 dark:via-emerald-950 dark:to-slate-800">
+    <section id="education" className="section-padding relative overflow-hidden bg-white dark:bg-slate-900">
       {/* Floating Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Leaves */}
@@ -78,7 +77,7 @@ const Education = () => {
               className="w-full animate-fade-in-up"
               style={{ animationDelay: `${index * 200}ms` }}
             >
-              <Card className="nature-card group hover:shadow-xl transition-all duration-500 hover:-translate-y-2 mx-4 md:mx-0">
+              <Card className="nature-card bg-white group hover:shadow-xl transition-all duration-500 hover:-translate-y-2 mx-4 md:mx-0">
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4">
                     <div className="p-3 bg-nature-leaf/20 rounded-full group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
