@@ -5,52 +5,25 @@ import { Button } from './ui/button';
 const Certifications = () => {
   const certifications = [
     {
-      name: "AWS Certified Solutions Architect",
-      issuer: "Amazon Web Services",
-      date: "2024",
-      credentialId: "AWS-ASA-2024-001",
-      description: "Demonstrated expertise in designing distributed systems on AWS platform",
-      verifyUrl: "#"
-    },
-    {
-      name: "Google Cloud Professional Developer",
+      name: "Google Cloud Gen AI Developer",
       issuer: "Google Cloud",
-      date: "2023",
-      credentialId: "GCP-PD-2023-042",
-      description: "Proficient in developing scalable applications on Google Cloud Platform",
-      verifyUrl: "#"
+      date: "2024",
+      description: "Expertise in building and deploying generative AI applications on Google Cloud with streamlit",
+      verifyUrl: "/assets/Google Cloud Gen AI.pdf"
     },
     {
-      name: "React Developer Certification",
-      issuer: "Meta (Facebook)",
+      name: "Infosys Learning React js",
+      issuer: "Infosys",
       date: "2023",
-      credentialId: "META-REACT-2023-118",
+      description: "React.js fundamentals and advanced concepts including state management and component lifecycle",
+      verifyUrl: "/assets/Kush React JS Certificate.pdf"
+    },
+    {
+      name: "Codsoft Data Science",
+      issuer: "Codsoft",
+      date: "2024",
       description: "Advanced React development skills including hooks, context, and performance optimization",
-      verifyUrl: "#"
-    },
-    {
-      name: "MongoDB Certified Developer",
-      issuer: "MongoDB University",
-      date: "2022",
-      credentialId: "MONGO-DEV-2022-287",
-      description: "Expert-level knowledge of MongoDB database design and operations",
-      verifyUrl: "#"
-    },
-    {
-      name: "Docker Certified Associate",
-      issuer: "Docker Inc.",
-      date: "2022",
-      credentialId: "DOCKER-CA-2022-156",
-      description: "Containerization and orchestration expertise with Docker and Kubernetes",
-      verifyUrl: "#"
-    },
-    {
-      name: "Scrum Master Certification",
-      issuer: "Scrum Alliance",
-      date: "2021",
-      credentialId: "CSM-2021-789",
-      description: "Agile project management and team leadership certification",
-      verifyUrl: "#"
+      verifyUrl: "/assets/Codsoft.pdf"
     }
   ];
 
@@ -130,18 +103,16 @@ const Certifications = () => {
                   {cert.description}
                 </p>
                 
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
-                    ID: {cert.credentialId}
-                  </span>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="hover:bg-nature-sage/10 hover:border-nature-sage hover:text-nature-forest transition-colors duration-300"
+                <div className="flex items-center justify-end">
+                  <a
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1.5 border border-nature-sage rounded-md text-sm font-medium text-nature-forest dark:text-nature-sage hover:bg-nature-sage/10 hover:border-nature-sage transition-colors duration-300"
                   >
                     <ExternalLink className="w-3 h-3 mr-1" />
-                    Verify
-                  </Button>
+                    Show Certificate
+                  </a>
                 </div>
               </CardContent>
             </Card>
