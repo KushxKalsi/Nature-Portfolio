@@ -9,7 +9,7 @@ const Projects = () => {
       title: 'AI Learning Assistant',
       description: 'An interactive AI-powered learning platform that helps users explore topics, generate learning roadmaps, get detailed explanations, and test their knowledge through quizzes.',
       tech: ['Python', 'Flask', 'Cursor AI', 'Html & CSS', 'JavaScript'],
-      image: 'public/assets/images/ai-learning-assitstant.png',
+      image: 'assets/images/ai-learning-assitstant.png',
       icon: <Leaf className="w-6 h-6 md:w-8 md:h-8" />,
       color: 'from-green-400 to-green-600',
       liveUrl: 'https://ai-learning-assistant-b4er.onrender.com/',
