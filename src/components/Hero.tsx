@@ -63,6 +63,19 @@ const Hero = () => {
       {/* Main Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <div className="animate-fade-in-up">
+          {/* Profile Image */}
+          <div className="mb-8 flex justify-center">
+            <div className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 mx-auto">
+              <div className="w-full h-full rounded-full bg-gradient-to-br from-nature-leaf/20 to-nature-forest/20 border-4 border-nature-sage/30 flex items-center justify-center overflow-hidden shadow-xl group hover:shadow-2xl transition-all duration-500 hover:scale-105">
+                <div className="w-full h-full bg-nature-leaf/10 rounded-full flex items-center justify-center text-6xl md:text-7xl lg:text-8xl text-nature-forest dark:text-nature-sage">
+                  👤
+                </div>
+              </div>
+              {/* Decorative ring */}
+              <div className="absolute inset-0 rounded-full border-2 border-nature-leaf/20 animate-ping" style={{ animationDuration: '3s' }}></div>
+            </div>
+          </div>
+
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
             <span className="nature-text-gradient">Growing</span>
             <br />
