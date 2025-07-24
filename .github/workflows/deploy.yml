@@ -27,7 +27,11 @@ jobs:
       - name: Build project
         run: npm run build
 
-        #deploy to GitHub Pages
+      # Add CNAME file to dist
+      - name: Add CNAME file
+        run: echo 'kushkalsi.in' > dist/CNAME
+
+      #deploy to GitHub Pages
       - name: Deploy to GitHub Pages 
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -36,4 +40,3 @@ jobs:
           publish_branch: gh-pages
           publish_repo: kushkalsi/Nature-Portfolio
           force_orphan: true
- 
