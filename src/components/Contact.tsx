@@ -92,7 +92,7 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start">
           {/* Contact Form */}
           <div className="nature-card p-6 md:p-8">
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+            <form action="https://getform.io/f/aejlwzdb" method="POST" className="space-y-4 md:space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Your Name
@@ -101,8 +101,6 @@ const Contact = () => {
                   type="text"
                   id="name"
                   name="name"
-                  value={formData.name}
-                  onChange={handleChange}
                   className="w-full px-3 md:px-4 py-2 md:py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-nature-leaf focus:border-transparent bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 transition-all duration-300 text-sm md:text-base"
                   placeholder="Enter your full name"
                   required
@@ -117,8 +115,6 @@ const Contact = () => {
                   type="email"
                   id="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
                   className="w-full px-3 md:px-4 py-2 md:py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-nature-leaf focus:border-transparent bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 transition-all duration-300 text-sm md:text-base"
                   placeholder="your.email@example.com"
                   required
@@ -133,8 +129,6 @@ const Contact = () => {
                   id="message"
                   name="message"
                   rows={4}
-                  value={formData.message}
-                  onChange={handleChange}
                   className="w-full px-3 md:px-4 py-2 md:py-3 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-nature-leaf focus:border-transparent bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 transition-all duration-300 resize-none text-sm md:text-base"
                   placeholder="Tell me about your project or just say hello..."
                   required
