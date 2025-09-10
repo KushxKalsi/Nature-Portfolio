@@ -69,7 +69,7 @@ const Education = () => {
 
       <div className="max-w-4xl mx-auto relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold nature-text-gradient mb-6 animate-fade-in-up">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold nature-text-gradient animate-fade-in-up pb-5">
             Educational Journey
           </h2>
           <p className="text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto animate-fade-in-up px-4">
