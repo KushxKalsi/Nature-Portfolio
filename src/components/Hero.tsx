@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Leaf, Mountain, Sparkles, ArrowDown } from 'lucide-react';
+import { Leaf, Mountain } from 'lucide-react';
 
 // Pre-generated leaf positions
 const leafPositions = Array.from({ length: 12 }, (_, i) => ({
@@ -13,10 +13,24 @@ const leafPositions = Array.from({ length: 12 }, (_, i) => ({
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Scroll animation for profile image
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      // Calculate progress from 0 to 1 based on scroll (0-300px)
+      const progress = Math.min(scrollY / 300, 1);
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Parallax mouse effect
@@ -117,18 +131,27 @@ const Hero = () => {
       {/* Main Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto pt-16">
          <div className="animate-fade-in-up">
-          {/* Profile Image */}
-          <div className="mb-8 flex justify-center">
+          {/* Profile Image - animates to header on scroll */}
+          <div 
+            className="mb-8 flex justify-center transition-all duration-300 ease-out"
+            style={{
+              transform: `scale(${1 - scrollProgress * 0.7}) translateY(${-scrollProgress * 100}px)`,
+              opacity: 1 - scrollProgress,
+            }}
+          >
             <div className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 mx-auto">
               <div className="w-full h-full rounded-full bg-gradient-to-br from-nature-leaf/20 to-nature-forest/20 border-4 border-nature-sage/30 flex items-center justify-center overflow-hidden shadow-xl group hover:shadow-2xl transition-all duration-500 hover:scale-105">
                 <img
-                  src="/assets/images/kush-image.jpg" // Place your image in public/assets/profile.jpg
+                  src="/assets/images/kush-image.jpg"
                   alt="Profile"
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
               {/* Decorative ring */}
-              <div className="absolute inset-0 rounded-full border-2 border-nature-leaf/20 animate-ping" style={{ animationDuration: '3s' }}></div>
+              <div 
+                className="absolute inset-0 rounded-full border-2 border-nature-leaf/20 animate-ping" 
+                style={{ animationDuration: '3s', opacity: 1 - scrollProgress }}
+              />
             </div>
           </div>
 

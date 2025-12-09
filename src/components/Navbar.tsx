@@ -4,11 +4,15 @@ import { Moon, Sun, Menu, X, Github, Instagram, Linkedin } from 'lucide-react';
 const Navbar = () => {
   const [isDark, setIsDark] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showProfileImage, setShowProfileImage] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 50);
+      // Show profile image in navbar when scrolled past hero image
+      setShowProfileImage(scrollY > 300);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -52,8 +56,24 @@ const Navbar = () => {
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          <div className="text-xl md:text-2xl font-bold nature-text-gradient">
-            Kush Kalsi
+          <div className="flex items-center gap-3">
+            {/* Profile image that appears on scroll */}
+            <div 
+              className={`transition-all duration-500 ease-out ${
+                showProfileImage 
+                  ? 'w-10 h-10 opacity-100 scale-100' 
+                  : 'w-0 h-0 opacity-0 scale-0'
+              }`}
+            >
+              <img
+                src="/assets/images/kush-image.jpg"
+                alt="Profile"
+                className="w-10 h-10 rounded-full object-cover border-2 border-nature-sage/50 shadow-md"
+              />
+            </div>
+            <span className="text-xl md:text-2xl font-bold nature-text-gradient">
+              Kush Kalsi
+            </span>
           </div>
           
           {/* Desktop Menu */}
