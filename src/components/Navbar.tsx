@@ -2,10 +2,32 @@ import { useState, useEffect } from 'react';
 import { Moon, Sun, Menu, X, Github, Instagram, Linkedin } from 'lucide-react';
 
 const Navbar = () => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    // Always use system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
   const [isScrolled, setIsScrolled] = useState(false);
   const [showProfileImage, setShowProfileImage] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Apply theme on mount and when isDark changes
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
+
+  // Listen for system theme changes and always follow them
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsDark(e.matches);
+    };
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,7 +43,6 @@ const Navbar = () => {
 
   const toggleTheme = () => {
     setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
   };
 
   const toggleMobileMenu = () => {
