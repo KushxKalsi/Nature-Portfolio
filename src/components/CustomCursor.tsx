@@ -196,10 +196,10 @@ const CustomCursor = () => {
       {/* Hidden canvas ref for touch devices to prevent null errors */}
       {isTouchDevice && <canvas ref={canvasRef} className="hidden" />}
 
-      {/* Outer ring */}
+      {/* Outer ring - desktop only */}
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full will-change-transform"
+        className={`fixed top-0 left-0 pointer-events-none z-[9999] rounded-full will-change-transform ${isTouchDevice ? 'hidden' : ''}`}
         style={{
           width: isPointer ? 50 : 36,
           height: isPointer ? 50 : 36,
@@ -213,10 +213,10 @@ const CustomCursor = () => {
         }}
       />
 
-      {/* Inner dot */}
+      {/* Inner dot - desktop only */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 pointer-events-none z-[10000] rounded-full will-change-transform"
+        className={`fixed top-0 left-0 pointer-events-none z-[10000] rounded-full will-change-transform ${isTouchDevice ? 'hidden' : ''}`}
         style={{
           width: isClicking ? 5 : 7,
           height: isClicking ? 5 : 7,
