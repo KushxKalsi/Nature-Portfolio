@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const PARTICLE_COUNT = 10;
+const PARTICLE_COUNT = 12;
 const COLORS = ['#22c55e', '#86efac', '#4ade80', '#a7f3d0'];
 
 const CustomCursor = () => {
@@ -15,17 +15,17 @@ const CustomCursor = () => {
   const particlesRef = useRef<
     { x: number; y: number; size: number; opacity: number; color: string }[]
   >([]);
+  const lastPos = useRef({ x: 0, y: 0 });
   const targetPos = useRef({ x: 0, y: 0 });
   const currentPos = useRef({ x: 0, y: 0 });
   const animationRef = useRef<number>();
-  const isTouching = useRef(false);
+  const isActive = useRef(false);
 
   useEffect(() => {
     const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     setIsTouchDevice(hasTouch);
   }, []);
 
-  // Unified animation loop for particles + smooth cursor interpolation
   useEffect(() => {
     const canvas = canvasRef.current;
     const cursor = cursorRef.current;
@@ -48,46 +48,47 @@ const CustomCursor = () => {
           x,
           y,
           size: Math.random() * 5 + 3,
-          opacity: 0.7,
+          opacity: 0.75,
           color: COLORS[Math.floor(Math.random() * COLORS.length)],
         });
       }
     };
 
-    let frameCount = 0;
+    // Add particles along a line between two points
+    const addParticlesAlongPath = (x1: number, y1: number, x2: number, y2: number) => {
+      const dist = Math.hypot(x2 - x1, y2 - y1);
+      const steps = Math.max(1, Math.floor(dist / 12)); // One particle every ~12px
+      
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        const x = x1 + (x2 - x1) * t;
+        const y = y1 + (y2 - y1) * t;
+        addParticle(x, y);
+      }
+    };
 
     const animate = () => {
-      frameCount++;
-
-      // Interpolate cursor position (smooth follow)
-      const lerp = isTouching.current ? 0.35 : 0.5;
+      // Smooth cursor follow
+      const lerp = 0.4;
       currentPos.current.x += (targetPos.current.x - currentPos.current.x) * lerp;
       currentPos.current.y += (targetPos.current.y - currentPos.current.y) * lerp;
 
-      // Update cursor elements
       const x = currentPos.current.x;
       const y = currentPos.current.y;
       cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
       ring.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
 
-      // Add particles along interpolated path (every 2 frames when touching)
-      if (isTouching.current && frameCount % 2 === 0) {
-        addParticle(x, y);
-      }
-
       // Clear and draw particles
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particlesRef.current = particlesRef.current.filter((p) => {
-        p.opacity -= 0.03;
-        p.size *= 0.95;
+        p.opacity -= 0.035;
+        p.size *= 0.94;
 
         if (p.opacity <= 0) return false;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color
-          .replace(')', `, ${p.opacity})`)
-          .replace('rgb', 'rgba');
+        ctx.fillStyle = `rgba(34, 197, 94, ${p.opacity})`;
         ctx.fill();
         return true;
       });
@@ -97,29 +98,22 @@ const CustomCursor = () => {
 
     animationRef.current = requestAnimationFrame(animate);
 
-    return () => {
-      window.removeEventListener('resize', resize);
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
-  }, []);
-
-  // Event handlers
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      targetPos.current = { x: e.clientX, y: e.clientY };
-      isTouching.current = true;
-      setIsVisible(true);
-
-      // Add particle directly for mouse (high frequency events)
-      if (particlesRef.current.length < PARTICLE_COUNT) {
-        particlesRef.current.push({
-          x: e.clientX,
-          y: e.clientY,
-          size: Math.random() * 5 + 3,
-          opacity: 0.7,
-          color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        });
+    // Event handlers
+    const updatePosition = (x: number, y: number, interpolate: boolean) => {
+      if (interpolate && isActive.current) {
+        addParticlesAlongPath(lastPos.current.x, lastPos.current.y, x, y);
+      } else {
+        addParticle(x, y);
       }
+      
+      lastPos.current = { x, y };
+      targetPos.current = { x, y };
+      isActive.current = true;
+      setIsVisible(true);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      updatePosition(e.clientX, e.clientY, true);
 
       const target = e.target as HTMLElement;
       const isClickable =
@@ -134,23 +128,26 @@ const CustomCursor = () => {
     const handleTouchMove = (e: TouchEvent) => {
       const touch = e.touches[0];
       if (touch) {
-        targetPos.current = { x: touch.clientX, y: touch.clientY };
+        updatePosition(touch.clientX, touch.clientY, true);
       }
     };
 
     const handleTouchStart = (e: TouchEvent) => {
       const touch = e.touches[0];
       if (touch) {
-        targetPos.current = { x: touch.clientX, y: touch.clientY };
+        // Reset positions on new touch
+        lastPos.current = { x: touch.clientX, y: touch.clientY };
         currentPos.current = { x: touch.clientX, y: touch.clientY };
+        targetPos.current = { x: touch.clientX, y: touch.clientY };
+        addParticle(touch.clientX, touch.clientY);
       }
-      isTouching.current = true;
+      isActive.current = true;
       setIsClicking(true);
       setIsVisible(true);
     };
 
     const handleTouchEnd = () => {
-      isTouching.current = false;
+      isActive.current = false;
       setIsClicking(false);
       setTimeout(() => setIsVisible(false), 400);
     };
@@ -158,7 +155,7 @@ const CustomCursor = () => {
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
     const handleMouseLeave = () => {
-      isTouching.current = false;
+      isActive.current = false;
       setIsVisible(false);
     };
     const handleMouseEnter = () => setIsVisible(true);
@@ -173,6 +170,8 @@ const CustomCursor = () => {
     document.addEventListener('touchend', handleTouchEnd);
 
     return () => {
+      window.removeEventListener('resize', resize);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('mouseup', handleMouseUp);
@@ -186,13 +185,11 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* Canvas for particles */}
       <canvas
         ref={canvasRef}
         className="fixed inset-0 pointer-events-none z-[9997]"
       />
 
-      {/* Outer ring */}
       <div
         ref={ringRef}
         className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full will-change-transform"
@@ -209,7 +206,6 @@ const CustomCursor = () => {
         }}
       />
 
-      {/* Inner dot */}
       <div
         ref={cursorRef}
         className="fixed top-0 left-0 pointer-events-none z-[10000] rounded-full will-change-transform"
@@ -223,7 +219,6 @@ const CustomCursor = () => {
         }}
       />
 
-      {/* Hide default cursor on desktop only */}
       {!isTouchDevice && (
         <style>{`
           *, *::before, *::after {
