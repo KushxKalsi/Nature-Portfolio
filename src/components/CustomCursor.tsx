@@ -186,16 +186,20 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* Canvas for particles */}
-      <canvas
-        ref={canvasRef}
-        className="fixed inset-0 pointer-events-none z-[9997]"
-      />
+      {/* Canvas for particles - desktop only */}
+      {!isTouchDevice && (
+        <canvas
+          ref={canvasRef}
+          className="fixed inset-0 pointer-events-none z-[9997]"
+        />
+      )}
+      {/* Hidden canvas ref for touch devices to prevent null errors */}
+      {isTouchDevice && <canvas ref={canvasRef} className="hidden" />}
 
-      {/* Outer ring - desktop only */}
+      {/* Outer ring */}
       <div
         ref={ringRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9999] rounded-full will-change-transform ${isTouchDevice ? 'hidden' : ''}`}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full will-change-transform"
         style={{
           width: isPointer ? 50 : 36,
           height: isPointer ? 50 : 36,
@@ -209,10 +213,10 @@ const CustomCursor = () => {
         }}
       />
 
-      {/* Inner dot - desktop only */}
+      {/* Inner dot */}
       <div
         ref={cursorRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[10000] rounded-full will-change-transform ${isTouchDevice ? 'hidden' : ''}`}
+        className="fixed top-0 left-0 pointer-events-none z-[10000] rounded-full will-change-transform"
         style={{
           width: isClicking ? 5 : 7,
           height: isClicking ? 5 : 7,
