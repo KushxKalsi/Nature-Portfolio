@@ -1,44 +1,103 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  opacity: number;
-  color: string;
-}
+const PARTICLE_COUNT = 8;
+const COLORS = ['#22c55e', '#86efac', '#4ade80', '#a7f3d0'];
 
 const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isPointer, setIsPointer] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
-  const [particles, setParticles] = useState<Particle[]>([]);
   const [isVisible, setIsVisible] = useState(false);
-
-  const colors = ['#22c55e', '#86efac', '#4ade80', '#a7f3d0', '#6ee7b7'];
-
-  const createParticle = useCallback((x: number, y: number) => {
-    const newParticle: Particle = {
-      id: Date.now() + Math.random(),
-      x,
-      y,
-      size: Math.random() * 8 + 4,
-      opacity: 1,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    };
-    return newParticle;
-  }, []);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particlesRef = useRef<{ x: number; y: number; size: number; opacity: number; color: string }[]>([]);
+  const mousePos = useRef({ x: 0, y: 0 });
+  const animationRef = useRef<number>();
+  const lastParticleTime = useRef(0);
 
   useEffect(() => {
-    let animationId: number;
-    let lastParticleTime = 0;
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    setIsTouchDevice(hasTouch);
+  }, []);
+
+  // Canvas particle system
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Update and draw particles
+      particlesRef.current = particlesRef.current.filter(p => {
+        p.opacity -= 0.025;
+        p.size *= 0.96;
+        
+        if (p.opacity <= 0) return false;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color.replace(')', `, ${p.opacity})`).replace('rgb', 'rgba');
+        ctx.fill();
+        return true;
+      });
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
+
+  // Mouse/touch handlers
+  useEffect(() => {
+    const cursor = cursorRef.current;
+    const ring = ringRef.current;
+    if (!cursor || !ring) return;
+
+    const addParticle = (x: number, y: number) => {
+      const now = Date.now();
+      if (now - lastParticleTime.current < 40) return; // Throttle
+      lastParticleTime.current = now;
+
+      if (particlesRef.current.length < PARTICLE_COUNT) {
+        particlesRef.current.push({
+          x,
+          y,
+          size: Math.random() * 6 + 3,
+          opacity: 0.8,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        });
+      }
+    };
+
+    const updateCursor = (x: number, y: number) => {
+      mousePos.current = { x, y };
+      cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+      ring.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+      addParticle(x, y);
+      setIsVisible(true);
+    };
 
     const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      setIsVisible(true);
+      updateCursor(e.clientX, e.clientY);
 
-      // Check if hovering over clickable element
       const target = e.target as HTMLElement;
       const isClickable = 
         target.tagName === 'BUTTON' ||
@@ -47,16 +106,22 @@ const CustomCursor = () => {
         target.closest('a') ||
         window.getComputedStyle(target).cursor === 'pointer';
       setIsPointer(isClickable);
+    };
 
-      // Create trail particles (throttled)
-      const now = Date.now();
-      if (now - lastParticleTime > 50) {
-        lastParticleTime = now;
-        setParticles(prev => {
-          const newParticles = [...prev, createParticle(e.clientX, e.clientY)];
-          return newParticles.slice(-15); // Keep only last 15 particles
-        });
-      }
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (touch) updateCursor(touch.clientX, touch.clientY);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (touch) updateCursor(touch.clientX, touch.clientY);
+      setIsClicking(true);
+    };
+
+    const handleTouchEnd = () => {
+      setIsClicking(false);
+      setTimeout(() => setIsVisible(false), 300);
     };
 
     const handleMouseDown = () => setIsClicking(true);
@@ -64,22 +129,14 @@ const CustomCursor = () => {
     const handleMouseLeave = () => setIsVisible(false);
     const handleMouseEnter = () => setIsVisible(true);
 
-    // Animate particles
-    const animateParticles = () => {
-      setParticles(prev => 
-        prev
-          .map(p => ({ ...p, opacity: p.opacity - 0.03, size: p.size * 0.95 }))
-          .filter(p => p.opacity > 0)
-      );
-      animationId = requestAnimationFrame(animateParticles);
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mousedown', handleMouseDown);
     document.addEventListener('mouseup', handleMouseUp);
     document.documentElement.addEventListener('mouseleave', handleMouseLeave);
     document.documentElement.addEventListener('mouseenter', handleMouseEnter);
-    animationId = requestAnimationFrame(animateParticles);
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
+    document.addEventListener('touchend', handleTouchEnd);
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
@@ -87,76 +144,59 @@ const CustomCursor = () => {
       document.removeEventListener('mouseup', handleMouseUp);
       document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
       document.documentElement.removeEventListener('mouseenter', handleMouseEnter);
-      cancelAnimationFrame(animationId);
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [createParticle]);
-
-  // Hide on touch devices
-  if (typeof window !== 'undefined' && 'ontouchstart' in window) {
-    return null;
-  }
+  }, []);
 
   return (
     <>
-      {/* Trail particles */}
-      {particles.map(particle => (
-        <div
-          key={particle.id}
-          className="fixed pointer-events-none z-[9998] rounded-full"
-          style={{
-            left: particle.x,
-            top: particle.y,
-            width: particle.size,
-            height: particle.size,
-            backgroundColor: particle.color,
-            opacity: particle.opacity,
-            transform: 'translate(-50%, -50%)',
-            filter: 'blur(1px)',
-          }}
-        />
-      ))}
+      {/* Canvas for particles - GPU accelerated */}
+      <canvas
+        ref={canvasRef}
+        className="fixed inset-0 pointer-events-none z-[9997]"
+      />
 
-      {/* Outer glow ring */}
+      {/* Outer ring */}
       <div
-        className={`fixed pointer-events-none z-[9999] rounded-full transition-all duration-300 ease-out ${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        }`}
+        ref={ringRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full will-change-transform"
         style={{
-          left: position.x,
-          top: position.y,
-          width: isPointer ? 50 : 40,
-          height: isPointer ? 50 : 40,
-          transform: 'translate(-50%, -50%)',
-          border: '2px solid rgba(34, 197, 94, 0.4)',
-          backgroundColor: isClicking ? 'rgba(34, 197, 94, 0.1)' : 'transparent',
+          width: isPointer ? 50 : 36,
+          height: isPointer ? 50 : 36,
+          opacity: isVisible ? 1 : 0,
+          border: '2px solid rgba(34, 197, 94, 0.5)',
+          backgroundColor: isClicking ? 'rgba(34, 197, 94, 0.15)' : 'transparent',
           boxShadow: isPointer 
-            ? '0 0 20px rgba(34, 197, 94, 0.4), 0 0 40px rgba(34, 197, 94, 0.2)' 
-            : '0 0 15px rgba(34, 197, 94, 0.3)',
+            ? '0 0 20px rgba(34, 197, 94, 0.4)' 
+            : '0 0 10px rgba(34, 197, 94, 0.3)',
+          transition: 'width 0.2s, height 0.2s, opacity 0.2s, box-shadow 0.2s',
         }}
       />
 
-      {/* Inner cursor dot */}
+      {/* Inner dot */}
       <div
-        className={`fixed pointer-events-none z-[10000] rounded-full transition-all duration-150 ease-out ${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        }`}
+        ref={cursorRef}
+        className="fixed top-0 left-0 pointer-events-none z-[10000] rounded-full will-change-transform"
         style={{
-          left: position.x,
-          top: position.y,
-          width: isClicking ? 6 : 8,
-          height: isClicking ? 6 : 8,
-          transform: 'translate(-50%, -50%)',
+          width: isClicking ? 5 : 7,
+          height: isClicking ? 5 : 7,
+          opacity: isVisible ? 1 : 0,
           backgroundColor: '#22c55e',
-          boxShadow: '0 0 10px rgba(34, 197, 94, 0.8)',
+          boxShadow: '0 0 8px rgba(34, 197, 94, 0.8)',
+          transition: 'width 0.1s, height 0.1s, opacity 0.1s',
         }}
       />
 
-      {/* Global style to hide default cursor */}
-      <style>{`
-        * {
-          cursor: none !important;
-        }
-      `}</style>
+      {/* Hide default cursor on desktop only */}
+      {!isTouchDevice && (
+        <style>{`
+          *, *::before, *::after {
+            cursor: none !important;
+          }
+        `}</style>
+      )}
     </>
   );
 };
